@@ -13,6 +13,7 @@ import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,14 +35,18 @@ public class LoginTest {
         when(userRepository.findAll()).thenReturn(List.of(
                 new AppUser(1,"anna", "losen"),
                 new AppUser(2,"berit", "123456"),
-                new AppUser(3,"kalle", "password"),
-                new AppUser(3,"kalle", "passsadf")
+                new AppUser(3,"kalle", "password")
                 )
         );
 
         String result = login.validate(username, password);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void login_unhappy_path() {
+
     }
 
     @Test

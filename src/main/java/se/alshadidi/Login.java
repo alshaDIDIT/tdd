@@ -2,6 +2,8 @@ package se.alshadidi;
 
 import se.alshadidi.repo.IAppUserRepository;
 
+import java.util.Base64;
+
 public class Login {
 
     private final IAppUserRepository userRepository;
@@ -10,10 +12,16 @@ public class Login {
         this.userRepository = userRepository;
     }
 
-    public boolean validate(String username, String password) {
-        return userRepository.findAll().stream()
+    public String validate(String username, String password) {
+        if (userRepository.findAll().stream()
                 .filter(u -> u.getUsername().equals(username))
                 .findFirst()
-                .get().getPassword().equals(password);
+                .get().getPassword().equals(password)) {
+            byte[] usernameAsBytes = username.getBytes();
+            byte[] usernameAsBase64 = Base64.getEncoder().encode(usernameAsBytes);
+            String byte64String = new String(usernameAsBase64);
+            return byte64String;
+        }
+        throw new InvalidCredentialsException("Wrong password or username");
     }
 }
