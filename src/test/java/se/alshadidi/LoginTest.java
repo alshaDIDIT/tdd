@@ -30,7 +30,7 @@ public class LoginTest {
 
     @ParameterizedTest
     @CsvSource(value = {"anna, losen, YW5uYQ==", "berit, 123456, YmVyaXQ=", "kalle, password, a2FsbGU="})
-    public void login_with_mock(String username, String password, boolean expected) {
+    public void login_with_mock(String username, String password, String expected) {
         when(userRepository.findAll()).thenReturn(List.of(
                 new AppUser(1,"anna", "losen"),
                 new AppUser(2,"berit", "123456"),
