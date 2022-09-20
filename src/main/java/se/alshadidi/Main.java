@@ -18,7 +18,7 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save(new AppUser(1, "anna", "losen"));
+        userRepository.save(new AppUser(1, "anna", "losen", "ADMIN"));
         userRepository.findAll().forEach(appUser -> System.out.println(appUser));
     }
 }
