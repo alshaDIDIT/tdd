@@ -24,4 +24,8 @@ public class Login {
         }
         throw new InvalidCredentialsException("Wrong password or username");
     }
+
+    public boolean validateToken(String token) {
+        return false;
+    }
 }
