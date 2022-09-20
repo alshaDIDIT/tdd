@@ -19,8 +19,7 @@ public class Login {
                 .get().getPassword().equals(password)) {
             byte[] usernameAsBytes = username.getBytes();
             byte[] usernameAsBase64 = Base64.getEncoder().encode(usernameAsBytes);
-            String byte64String = new String(usernameAsBase64);
-            return byte64String;
+            return new String(usernameAsBase64);
         }
         throw new InvalidCredentialsException("Wrong password or username");
     }
@@ -30,8 +29,7 @@ public class Login {
         byte[] backAsBytes = Base64.getDecoder().decode(backAsBase64Bytes);
         String backAsOriginal = new String(backAsBytes);
 
-        return (userRepository.findAll().stream()
-                .filter(u -> u.getUsername().equals(backAsOriginal))
-                .findFirst().get().getUsername().equals(backAsOriginal));
+        return userRepository.findAll().stream()
+                .anyMatch(u -> u.getUsername().equals(backAsOriginal));
     }
 }

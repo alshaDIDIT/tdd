@@ -11,8 +11,7 @@ import se.alshadidi.repo.IAppUserRepository;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,20 +54,20 @@ public class LoginTest {
         assertThrows(InvalidCredentialsException.class, () -> login.validate(username, password));
     }
 
-    @Test
-    public void login_with_token_happy_path() {
+    @ParameterizedTest
+    @CsvSource(value = {"YW5uYQ==, true", "YmVyaXQ=, false"})
+    public void login_with_token(String token, boolean expected) {
         // given
         when(userRepository.findAll()).thenReturn(List.of(
                         new AppUser(1,"anna", "losen")
                 )
         );
-        String token = "YW5uYQ==";
 
         // when
         boolean result = login.validateToken(token);
 
         // then
-        assertEquals(true, result);
+        assertEquals(expected, result);
     }
 
 }
