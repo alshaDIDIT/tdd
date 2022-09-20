@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.alshadidi.repo.IAppUserRepository;
 
+import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +29,7 @@ public class LoginTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"anna, losen, YW5uYQ==", "berit, 123456, YmVyaXQ=", "kalle, password, a2FsbGU=", "kalle, passapo, a2FsbDU="})
+    @CsvSource(value = {"anna, losen, YW5uYQ==", "berit, 123456, YmVyaXQ=", "kalle, password, a2FsbGU="})
     public void login_with_mock(String username, String password, boolean expected) {
         when(userRepository.findAll()).thenReturn(List.of(
                 new AppUser(1,"anna", "losen"),
@@ -38,7 +39,7 @@ public class LoginTest {
                 )
         );
 
-        boolean result = login.validate(username, password);
+        String result = login.validate(username, password);
 
         assertEquals(expected, result);
     }
