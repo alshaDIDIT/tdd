@@ -88,8 +88,6 @@ public class LoginTest {
                 )
         );
 
-//        Key key = Keys.hmacShaKeyFor("DethärÄrEnSuperKompliceradTextSomIngenKommerÅt".getBytes());
-
         // when
         String result = login.createJwtToken(id);
 
