@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.alshadidi.repo.IAppUserRepository;
 
-import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,7 +45,14 @@ public class LoginTest {
 
     @Test
     public void login_unhappy_path() {
+        when(userRepository.findAll()).thenReturn(List.of(
+                        new AppUser(1,"anna", "losen")
+                )
+        );
+        String username = "anna";
+        String password = "lololol";
 
+        assertThrows(InvalidCredentialsException.class, () -> login.validate(username, password));
     }
 
     @Test
