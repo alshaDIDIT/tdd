@@ -56,8 +56,15 @@ public class LoginTest {
     }
 
     @Test
-    public void login_with_token() {
+    public void login_with_token_happy_path() {
+        // given
+        String token = "YW5uYQ==";
 
+        // when
+        boolean result = login.validateToken(token);
+
+        // then
+        assertEquals(true, result);
     }
 
 }
