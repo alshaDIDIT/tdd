@@ -76,10 +76,10 @@ public class LoginTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "anna, losen, ADMIN, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbm5hIiwiUm9sZSI6IkFETUlOIn0.KyBpzBcEOBQdhJlxD0aQIW8pVy-jwiNTBIdeTzyb1tPRQVi1HkGmu53xlRDYn0Dj",
-            "berit, 123456, TEACHER, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiZXJpdCIsIlJvbGUiOiJURUFDSEVSIn0.MrPaAaygKMUvPdOdgdU4Khy9BVHrhCZ-f5n7yevF2_bWxjXfFekXvHnS7fmE30Wg",
-            "kalle, password, STUDENT, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrYWxsZSIsIlJvbGUiOiJTVFVERU5UIn0.wubfKhTSs_uSPIqkM1xkuuSl0J4zr1nj3U8fMMyP1VKOADXjBVjVqfR5oz1rEJrJ"})
-    public void login_with_jwt_token(String username, String password, String role, String expected){
+            "anna, losen, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbm5hIiwiUm9sZSI6IkFETUlOIn0.KyBpzBcEOBQdhJlxD0aQIW8pVy-jwiNTBIdeTzyb1tPRQVi1HkGmu53xlRDYn0Dj",
+            "berit, 123456, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiZXJpdCIsIlJvbGUiOiJURUFDSEVSIn0.MrPaAaygKMUvPdOdgdU4Khy9BVHrhCZ-f5n7yevF2_bWxjXfFekXvHnS7fmE30Wg",
+            "kalle, password, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrYWxsZSIsIlJvbGUiOiJTVFVERU5UIn0.wubfKhTSs_uSPIqkM1xkuuSl0J4zr1nj3U8fMMyP1VKOADXjBVjVqfR5oz1rEJrJ"})
+    public void login_with_jwt_token(String username, String password, String expected){
         // given
         when(userRepository.findAll()).thenReturn(List.of(
                         new AppUser(1,"anna", "losen", "ADMIN"),
@@ -88,24 +88,13 @@ public class LoginTest {
                 )
         );
 
-        Key key = Keys.hmacShaKeyFor("DethärÄrEnSuperKompliceradTextSomIngenKommerÅt".getBytes());
-
-        String jwt = Jwts.builder()
-                .setSubject(username)
-                .addClaims(Map.of("Role", role))
-                .signWith(key)
-                .compact();
-
-        System.out.println(jwt);
-
-
-
+//        Key key = Keys.hmacShaKeyFor("DethärÄrEnSuperKompliceradTextSomIngenKommerÅt".getBytes());
 
         // when
-//        String result = login.createJwtToken(username, password);
+        String result = login.createJwtToken(username, password);
 
         // then
-//        assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
 }
