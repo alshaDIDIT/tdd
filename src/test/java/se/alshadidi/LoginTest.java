@@ -58,6 +58,10 @@ public class LoginTest {
     @Test
     public void login_with_token_happy_path() {
         // given
+        when(userRepository.findAll()).thenReturn(List.of(
+                        new AppUser(1,"anna", "losen")
+                )
+        );
         String token = "YW5uYQ==";
 
         // when

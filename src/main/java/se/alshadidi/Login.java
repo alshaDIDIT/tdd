@@ -26,6 +26,12 @@ public class Login {
     }
 
     public boolean validateToken(String token) {
-        return false;
+        byte[] backAsBase64Bytes = token.getBytes();
+        byte[] backAsBytes = Base64.getDecoder().decode(backAsBase64Bytes);
+        String backAsOriginal = new String(backAsBytes);
+
+        return (userRepository.findAll().stream()
+                .filter(u -> u.getUsername().equals(backAsOriginal))
+                .findFirst().get().getUsername().equals(backAsOriginal));
     }
 }
