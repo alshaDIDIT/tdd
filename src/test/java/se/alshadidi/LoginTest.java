@@ -1,6 +1,7 @@
 package se.alshadidi;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -27,7 +28,7 @@ public class LoginTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"anna, losen, true", "berit, 123456, true", "kalle, password, true", "kalle, passapo, false"})
+    @CsvSource(value = {"anna, losen, YW5uYQ==", "berit, 123456, YmVyaXQ=", "kalle, password, a2FsbGU=", "kalle, passapo, a2FsbDU="})
     public void login_with_mock(String username, String password, boolean expected) {
         when(userRepository.findAll()).thenReturn(List.of(
                 new AppUser(1,"anna", "losen"),
@@ -42,5 +43,9 @@ public class LoginTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    public void login_with_token() {
+
+    }
 
 }
