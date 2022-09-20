@@ -76,10 +76,10 @@ public class LoginTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "anna, losen, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbm5hIiwiUm9sZSI6IkFETUlOIn0.KyBpzBcEOBQdhJlxD0aQIW8pVy-jwiNTBIdeTzyb1tPRQVi1HkGmu53xlRDYn0Dj",
-            "berit, 123456, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiZXJpdCIsIlJvbGUiOiJURUFDSEVSIn0.MrPaAaygKMUvPdOdgdU4Khy9BVHrhCZ-f5n7yevF2_bWxjXfFekXvHnS7fmE30Wg",
-            "kalle, password, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrYWxsZSIsIlJvbGUiOiJTVFVERU5UIn0.wubfKhTSs_uSPIqkM1xkuuSl0J4zr1nj3U8fMMyP1VKOADXjBVjVqfR5oz1rEJrJ"})
-    public void login_with_jwt_token(String username, String password, String expected){
+            "1, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbm5hIiwiUm9sZSI6IkFETUlOIn0.KyBpzBcEOBQdhJlxD0aQIW8pVy-jwiNTBIdeTzyb1tPRQVi1HkGmu53xlRDYn0Dj",
+            "2, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiZXJpdCIsIlJvbGUiOiJURUFDSEVSIn0.MrPaAaygKMUvPdOdgdU4Khy9BVHrhCZ-f5n7yevF2_bWxjXfFekXvHnS7fmE30Wg",
+            "3, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrYWxsZSIsIlJvbGUiOiJTVFVERU5UIn0.wubfKhTSs_uSPIqkM1xkuuSl0J4zr1nj3U8fMMyP1VKOADXjBVjVqfR5oz1rEJrJ"})
+    public void login_with_jwt_token(int id, String expected){
         // given
         when(userRepository.findAll()).thenReturn(List.of(
                         new AppUser(1,"anna", "losen", "ADMIN"),
@@ -91,7 +91,7 @@ public class LoginTest {
 //        Key key = Keys.hmacShaKeyFor("DethärÄrEnSuperKompliceradTextSomIngenKommerÅt".getBytes());
 
         // when
-        String result = login.createJwtToken(username, password);
+        String result = login.createJwtToken(id);
 
         // then
         assertEquals(expected, result);
