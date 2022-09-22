@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.alshadidi.repo.IAppUserRepository;
 
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +94,27 @@ public class LoginTest {
 
         // then
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void verify_token_test() {
+        // given
+        when(userRepository.findAll()).thenReturn(List.of(
+                        new AppUser(1,"anna", "losen", "ADMIN")
+                )
+        );
+        String jwtToken = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbm5hIiwiUm9sZSI6IkFETUlOIn0.KyBpzBcEOBQdhJlxD0aQIW8pVy-jwiNTBIdeTzyb1tPRQVi1HkGmu53xlRDYn0Dj";
+
+        // when
+        List<Map<String, String>> result = login.verifyToken(jwtToken);
+
+        List<Map<String, String>> expected = new ArrayList<>();
+        expected.add(1, Map.of("GRADING", "READ"));
+        expected.add(2, Map.of("GRADING", "WRITE"));
+        expected.add(3, Map.of("COURSE_FEEDBACK", "WRITE"));
+        expected.add(4, Map.of("COURSE_FEEDBACK", "WRITE"));
+
+        assertIterableEquals(expected, result);
     }
 
 }
