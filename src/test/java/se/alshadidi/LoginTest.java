@@ -96,4 +96,22 @@ public class LoginTest {
         assertEquals(expected, result);
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"anna, ADMIN", "berit, TEACHER", "kalle, STUDENT"})
+    public void return_role_test(String username, String expected) {
+        when(userRepository.findRole("anna")).thenReturn(
+                new AppUser(1, "anna", "losen", "ADMIN")
+        );
+        when(userRepository.findRole("berit")).thenReturn(
+                new AppUser(2, "berit", "123456", "TEACHER")
+        );
+        when(userRepository.findRole("kalle")).thenReturn(
+                new AppUser(3, "kalle", "password", "STUDENT")
+        );
+
+        String result = login.returnRole(username);
+
+        assertEquals(expected, result);
+    }
+
 }
