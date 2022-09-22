@@ -6,6 +6,7 @@ import se.alshadidi.repo.IAppUserRepository;
 
 import java.security.Key;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 public class Login {
@@ -51,4 +52,5 @@ public class Login {
                 .signWith(key)
                 .compact();
     }
+
 }
