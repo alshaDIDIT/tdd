@@ -39,16 +39,13 @@ public class Login {
     }
 
     public String createJwtToken(String username) {
-        AppUser user = userRepository.findAll().stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst()
-                .orElseThrow();
+        String role = userRepository.findRole(username);
 
         Key key = Keys.hmacShaKeyFor("DethärÄrEnSuperKompliceradTextSomIngenKommerÅt".getBytes());
 
         return Jwts.builder()
-                .setSubject(user.getUsername())
-                .addClaims(Map.of("Role", user.getRole()))
+                .setSubject(username)
+                .addClaims(Map.of("Role", role))
                 .signWith(key)
                 .compact();
     }

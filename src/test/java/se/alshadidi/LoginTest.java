@@ -75,33 +75,75 @@ public class LoginTest {
         assertEquals(expected, result);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {
-            "anna, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbm5hIiwiUm9sZSI6IkFETUlOIn0.KyBpzBcEOBQdhJlxD0aQIW8pVy-jwiNTBIdeTzyb1tPRQVi1HkGmu53xlRDYn0Dj",
-            "berit, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiZXJpdCIsIlJvbGUiOiJURUFDSEVSIn0.MrPaAaygKMUvPdOdgdU4Khy9BVHrhCZ-f5n7yevF2_bWxjXfFekXvHnS7fmE30Wg",
-            "kalle, eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrYWxsZSIsIlJvbGUiOiJTVFVERU5UIn0.wubfKhTSs_uSPIqkM1xkuuSl0J4zr1nj3U8fMMyP1VKOADXjBVjVqfR5oz1rEJrJ"})
-    public void login_with_jwt_token(String username, String expected) {
+    @Test
+    public void login_with_jwt_token_anna() {
         // given
-        when(userRepository.findAll()).thenReturn(List.of(
-                        new AppUser(1, "anna", "losen", "ADMIN"),
-                        new AppUser(2, "berit", "123456", "TEACHER"),
-                        new AppUser(3, "kalle", "password", "STUDENT")
-                )
-        );
+        when(userRepository.findRole("anna")).thenReturn("ADMIN");
+        String username = "anna";
+        String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbm5hIiwiUm9sZSI6IkFETUlOIn0.KyBpzBcEOBQdhJlxD0aQIW8pVy-jwiNTBIdeTzyb1tPRQVi1HkGmu53xlRDYn0Dj";
 
         // when
         String result = login.createJwtToken(username);
 
         // then
+        assertEquals(token, result);
+    }
+
+    @Test
+    public void login_with_jwt_token_berit() {
+        // given
+        when(userRepository.findRole("berit")).thenReturn("TEACHER");
+        String username = "berit";
+        String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiZXJpdCIsIlJvbGUiOiJURUFDSEVSIn0.MrPaAaygKMUvPdOdgdU4Khy9BVHrhCZ-f5n7yevF2_bWxjXfFekXvHnS7fmE30Wg";
+
+        // when
+        String result = login.createJwtToken(username);
+
+        // then
+        assertEquals(token, result);
+    }
+
+    @Test
+    public void login_with_jwt_token_kalle() {
+        // given
+        when(userRepository.findRole("kalle")).thenReturn("STUDENT");
+        String username = "kalle";
+        String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrYWxsZSIsIlJvbGUiOiJTVFVERU5UIn0.wubfKhTSs_uSPIqkM1xkuuSl0J4zr1nj3U8fMMyP1VKOADXjBVjVqfR5oz1rEJrJ";
+
+        // when
+        String result = login.createJwtToken(username);
+
+        // then
+        assertEquals(token, result);
+    }
+
+    @Test
+    public void return_role_test_anna() {
+        when(userRepository.findRole("anna")).thenReturn("ADMIN");
+        String username = "anna";
+        String expected = "ADMIN";
+
+        String result = login.returnRole(username);
+
         assertEquals(expected, result);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"anna, ADMIN", "berit, TEACHER", "kalle, STUDENT"})
-    public void return_role_test(String username, String expected) {
-        when(userRepository.findRole("anna")).thenReturn("ADMIN");
+    @Test
+    public void return_role_test_berit() {
         when(userRepository.findRole("berit")).thenReturn("TEACHER");
+        String username = "berit";
+        String expected = "TEACHER";
+
+        String result = login.returnRole(username);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void return_role_test_kalle() {
         when(userRepository.findRole("kalle")).thenReturn("STUDENT");
+        String username = "kalle";
+        String expected = "STUDENT";
 
         String result = login.returnRole(username);
 
