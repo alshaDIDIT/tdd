@@ -53,4 +53,15 @@ public class Login {
                 .compact();
     }
 
+    public String returnRole(String username) {
+        String token = createJwtToken(username);
+        Key key = Keys.hmacShaKeyFor("DethärÄrEnSuperKompliceradTextSomIngenKommerÅt".getBytes());
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("Role", String.class);
+    }
 }

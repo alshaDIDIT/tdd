@@ -99,15 +99,9 @@ public class LoginTest {
     @ParameterizedTest
     @CsvSource(value = {"anna, ADMIN", "berit, TEACHER", "kalle, STUDENT"})
     public void return_role_test(String username, String expected) {
-        when(userRepository.findRole("anna")).thenReturn(
-                new AppUser(1, "anna", "losen", "ADMIN")
-        );
-        when(userRepository.findRole("berit")).thenReturn(
-                new AppUser(2, "berit", "123456", "TEACHER")
-        );
-        when(userRepository.findRole("kalle")).thenReturn(
-                new AppUser(3, "kalle", "password", "STUDENT")
-        );
+        when(userRepository.findRole("anna")).thenReturn("ADMIN");
+        when(userRepository.findRole("berit")).thenReturn("TEACHER");
+        when(userRepository.findRole("kalle")).thenReturn("STUDENT");
 
         String result = login.returnRole(username);
 
