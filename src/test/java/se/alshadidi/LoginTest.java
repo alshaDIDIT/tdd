@@ -134,7 +134,7 @@ public class LoginTest {
     }
 
     @Test
-    public void verify_token_test_two() {
+    public void verify_token_test_three() {
         when(userRepository.findAll()).thenReturn(List.of(
                         new AppUser(3, "kalle", "password", "STUDENT")
                 )
