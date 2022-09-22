@@ -38,9 +38,9 @@ public class Login {
                 .anyMatch(u -> u.getUsername().equals(backAsOriginal));
     }
 
-    public String createJwtToken(int id) {
+    public String createJwtToken(String username) {
         AppUser user = userRepository.findAll().stream()
-                .filter(u -> u.getId() == id)
+                .filter(u -> u.getUsername().equals(username))
                 .findFirst()
                 .orElseThrow();
 
